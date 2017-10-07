@@ -112,6 +112,53 @@ void EncoderOpenGL::EncodePBO(GLuint pbo, uint32_t width, uint32_t height, bool 
 }
 
 
+std::shared_ptr<NV_ENC_LOCK_BITSTREAM> EncoderOpenGL::EncodeFrame(GLuint texture, GLenum target, uint32_t width, uint32_t height, bool iFrame)
+{
+	// Check if texture needs to be (re)registered
+	RegisteredTexture& reg = m_registeredTextures[texture];
+
+	if (reg.width != width || reg.height != height)
+	{
+		if (reg.graphicsResource)
+		{
+			OPENGL_THROW(cuGraphicsUnregisterResource(reg.graphicsResource),
+				"Failed to unregister resource");
+
+			reg.graphicsResource = nullptr;
+		}
+
+		OPENGL_THROW(cuGraphicsGLRegisterImage(&reg.graphicsResource, texture, target, CU_GRAPHICS_REGISTER_FLAGS_READ_ONLY),
+			"Failed to register texture image as graphics resource");
+
+		reg.width = width;
+		reg.height = height;
+	}
+
+	// Map Texture
+	OPENGL_THROW(cuGraphicsMapResources(1, &reg.graphicsResource, 0),
+		"Failed to map texture image graphics resource");
+
+	CUdeviceptr devicePtr;
+	size_t sizeOfBuffer;
+	OPENGL_THROW(cuGraphicsResourceGetMappedPointer(&devicePtr, &sizeOfBuffer, reg.graphicsResource),
+		"Failed to get device pointer to texture image graphics resource");
+
+	// 	CUarray textureArray;
+	// 	OPENGL_THROW(cuGraphicsSubResourceGetMappedArray(&textureArray, reg.graphicsResource, 0, 0),
+	// 		"Failed to get mapped array to texture image graphics resource");
+	// 
+	// 	// Encode
+	// 	EncodeArray(textureArray, width, height, iFrame, buffer);
+
+	// NOTE: What format is this texture?!
+	auto result = Encoder::EncodeFrame(NV_ENC_INPUT_RESOURCE_TYPE_CUDADEVICEPTR, reg.graphicsResource, NV_ENC_BUFFER_FORMAT_ARGB, 1, width, height, iFrame);
+
+	// Unmap texture
+	OPENGL_THROW(cuGraphicsUnmapResources(1, &reg.graphicsResource, 0),
+		"Failed to unmap texture image graphics resource");
+
+	return result;
+}
 
 /**
 * @brief Encodes the given OpenGL RGBA texture.
@@ -157,12 +204,19 @@ void EncoderOpenGL::EncodeTexture(GLuint texture, GLenum target, uint32_t width,
 	OPENGL_THROW(cuGraphicsMapResources(1, &reg.graphicsResource, 0),
 		"Failed to map texture image graphics resource");
 
-	CUarray textureArray;
-	OPENGL_THROW(cuGraphicsSubResourceGetMappedArray(&textureArray, reg.graphicsResource, 0, 0),
-		"Failed to get mapped array to texture image graphics resource");
+	CUdeviceptr devicePtr;
+	size_t sizeOfBuffer;
+	OPENGL_THROW(cuGraphicsResourceGetMappedPointer(&devicePtr, &sizeOfBuffer, reg.graphicsResource),
+		"Failed to get device pointer to texture image graphics resource");
 
-	// Encode
-	EncodeArray(textureArray, width, height, iFrame, buffer);
+// 	CUarray textureArray;
+// 	OPENGL_THROW(cuGraphicsSubResourceGetMappedArray(&textureArray, reg.graphicsResource, 0, 0),
+// 		"Failed to get mapped array to texture image graphics resource");
+// 
+// 	// Encode
+// 	EncodeArray(textureArray, width, height, iFrame, buffer);
+
+	Encoder::Encode(NV_ENC_INPUT_RESOURCE_TYPE_CUDADEVICEPTR, reg.graphicsResource, NV_ENC_BUFFER_FORMAT_ARGB, 1, width, height, iFrame, buffer);
 
 	// Unmap texture
 	OPENGL_THROW(cuGraphicsUnmapResources(1, &reg.graphicsResource, 0),

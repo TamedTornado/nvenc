@@ -57,6 +57,28 @@ inline void NVENC_THROW(NVENCSTATUS code, const std::string& errorMessage)
 	}
 }
 
+void* m_nvencHandle = nullptr;
+NV_ENCODE_API_FUNCTION_LIST m_nvencFuncs;
+NV_ENC_INITIALIZE_PARAMS m_nvencParams;
+NV_ENC_CONFIG m_nvencConfig;
+void* m_nvencEncoder = nullptr;
+
+NV_ENC_OUTPUT_PTR m_bitstreamBuffer = nullptr;
+NV_ENC_REGISTERED_PTR m_registeredResource = nullptr;
+
+bool m_forceReinit = true;
+bool m_hevc;
+
+Encoder::Encoder():
+	m_nvencHandle(nullptr),
+	m_nvencFuncs(),
+	m_nvencConfig(),
+	m_nvencEncoder(nullptr),
+	m_forceReinit(true),
+	m_hevc(true)
+{
+
+}
 
 /**
  * @brief Initializes the encode session and the conversion kernels.
@@ -74,19 +96,6 @@ void Encoder::Init(NV_ENC_DEVICE_TYPE deviceType, void* device, uint32_t width, 
 
 	// Initialize NvEncodeAPI
 	m_nvencFuncs = { NV_ENCODE_API_FUNCTION_LIST_VER };
-#if defined(_WIN32)
-#if defined(_WIN64)
-	HMODULE hModule = LoadLibrary(TEXT("nvEncodeAPI64.dll"));
-#else
-	HMODULE hModule = LoadLibrary(TEXT("nvEncodeAPI.dll"));
-#endif
-#else
-	void *hModule = dlopen("libnvidia-encode.so.1", RTLD_LAZY);
-#endif
-
-	// FIXME
-	if (!hModule)
-		return;//throw std::runtime_error("nvEncodeAPI library file is not found");
 
 	typedef NVENCSTATUS(NVENCAPI *NvEncodeAPICreateInstance_Type)(NV_ENCODE_API_FUNCTION_LIST*);
 #if defined(_WIN32)
@@ -169,6 +178,8 @@ Encoder::~Encoder()
 
 
 
+
+
 /**
  * @brief Base encode method which is called by the different specialized subclasses.
  * @param resourceType
@@ -237,6 +248,67 @@ void Encoder::Encode(NV_ENC_INPUT_RESOURCE_TYPE resourceType, void* resource, NV
 }
 
 
+
+std::shared_ptr<NV_ENC_LOCK_BITSTREAM> Encoder::EncodeFrame(NV_ENC_INPUT_RESOURCE_TYPE resourceType, void* resource, NV_ENC_BUFFER_FORMAT format, uint32_t pitch, uint32_t width, uint32_t height, bool iFrame)
+{
+	// Preprocess input and resize (if necessary)
+	PrepareEncode(resourceType, resource, format, pitch, width, height);
+
+	NV_ENC_MAP_INPUT_RESOURCE mapInputResource = { NV_ENC_MAP_INPUT_RESOURCE_VER };
+	mapInputResource.registeredResource = m_registeredResource;
+
+	NVENC_THROW(m_nvencFuncs.nvEncMapInputResource(m_nvencEncoder, &mapInputResource),
+		"Failed to map input resource");
+
+	// Do the encode
+	NV_ENC_PIC_PARAMS picParams = {};
+	picParams.version = NV_ENC_PIC_PARAMS_VER;
+	picParams.pictureStruct = NV_ENC_PIC_STRUCT_FRAME;
+	picParams.inputBuffer = mapInputResource.mappedResource;
+	picParams.bufferFmt = format;
+	//picParams.pictureType = NV_ENC_PIC_TYPE_P;
+	picParams.inputWidth = width;
+	picParams.inputHeight = height;
+	picParams.outputBitstream = m_bitstreamBuffer;
+	picParams.completionEvent = NULL;
+	if (iFrame)
+		picParams.encodePicFlags = NV_ENC_PIC_FLAG_FORCEIDR | NV_ENC_PIC_FLAG_OUTPUT_SPSPPS;
+
+	if (m_hevc)
+	{
+		NV_ENC_PIC_PARAMS_HEVC& hevcpicParams = picParams.codecPicParams.hevcPicParams;
+		hevcpicParams.constrainedFrame = 1;
+		hevcpicParams.sliceMode = 0;
+		hevcpicParams.sliceModeData = 0;
+	}
+
+	NVENC_THROW(m_nvencFuncs.nvEncEncodePicture(m_nvencEncoder, &picParams),
+		"Failed to encode picture");
+
+	auto lockBitstreamData = std::make_shared<NV_ENC_LOCK_BITSTREAM>(NV_ENC_LOCK_BITSTREAM{ NV_ENC_LOCK_BITSTREAM_VER });
+//	NV_ENC_LOCK_BITSTREAM lockBitstreamData = { NV_ENC_LOCK_BITSTREAM_VER };
+
+	lockBitstreamData.outputBitstream = m_bitstreamBuffer;
+	lockBitstreamData.doNotWait = false;
+
+	NVENC_THROW(m_nvencFuncs.nvEncLockBitstream(m_nvencEncoder, lockBitstreamData.get()),
+		"Failed to lock bitstream");
+
+	// Now just return the struct, we don't unlock it.
+
+	return lockBitstreamData;
+
+// 	uint8_t *pData = (uint8_t*)lockBitstreamData.bitstreamBufferPtr;
+// 
+// 	buffer.clear();
+// 	buffer.insert(buffer.begin(), &pData[0], &pData[lockBitstreamData.bitstreamSizeInBytes]);
+// 
+// 	NVENC_THROW(m_nvencFuncs.nvEncUnlockBitstream(m_nvencEncoder, lockBitstreamData.outputBitstream),
+// 		"Failed to unlock bitstream");
+// 
+// 	NVENC_THROW(m_nvencFuncs.nvEncUnmapInputResource(m_nvencEncoder, mapInputResource.mappedResource),
+// 		"Failed to unmap input resource");
+}
 
 /**
  * @brief Pre-encode operations such as resize and color conversion.

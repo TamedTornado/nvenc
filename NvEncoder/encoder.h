@@ -30,10 +30,10 @@
 class Encoder
 {
 protected:
-	Encoder() = default;
 	Encoder(const Encoder&) = delete;
 
 public:
+	Encoder();
 	virtual ~Encoder();
 
 	enum CompressionBandwidth
@@ -47,8 +47,10 @@ public:
 	void SetRate(uint32_t bps);
 
 protected:
-	void Init(NV_ENC_DEVICE_TYPE deviceType, void* device, uint32_t width, uint32_t height, bool hevc, uint32_t bitrate);
+	virtual void Init(NV_ENC_DEVICE_TYPE deviceType, void* device, uint32_t width, uint32_t height, bool hevc, uint32_t bitrate);
 	void Encode(NV_ENC_INPUT_RESOURCE_TYPE resourceType, void* resource, NV_ENC_BUFFER_FORMAT format, uint32_t pitch, uint32_t width, uint32_t height, bool iFrame, std::vector<uint8_t>& buffer);
+
+	std::shared_ptr<NV_ENC_LOCK_BITSTREAM> EncodeFrame(NV_ENC_INPUT_RESOURCE_TYPE resourceType, void* resource, NV_ENC_BUFFER_FORMAT format, uint32_t pitch, uint32_t width, uint32_t height, bool iFrame);
 
 private:
 	void PrepareEncode(NV_ENC_INPUT_RESOURCE_TYPE resourceType, void* resource, NV_ENC_BUFFER_FORMAT format, uint32_t pitch, uint32_t width, uint32_t height);
@@ -56,14 +58,15 @@ private:
 	void CreateBitstream(uint32_t size);
 
 private:
-	void* m_nvencHandle = nullptr;
+	void* m_nvencHandle;
 	NV_ENCODE_API_FUNCTION_LIST m_nvencFuncs;
 	NV_ENC_INITIALIZE_PARAMS m_nvencParams;
 	NV_ENC_CONFIG m_nvencConfig;
-	void* m_nvencEncoder = nullptr;
+	void* m_nvencEncoder;
 
-	NV_ENC_OUTPUT_PTR m_bitstreamBuffer = nullptr;
-	NV_ENC_REGISTERED_PTR m_registeredResource = nullptr;
+	//TODO: Replace me!
+	NV_ENC_OUTPUT_PTR m_bitstreamBuffer;
+	NV_ENC_REGISTERED_PTR m_registeredResource;
 
 	bool m_forceReinit = true;
 	bool m_hevc;

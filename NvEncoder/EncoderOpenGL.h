@@ -17,6 +17,8 @@ public:
 	void EncodePBO(GLuint pbo, uint32_t width, uint32_t height, bool iFrame, std::vector<uint8_t>& buffer);
 	void EncodeTexture(GLuint texture, GLenum target, uint32_t width, uint32_t height, bool iFrame, std::vector<uint8_t>& buffer);
 
+	std::shared_ptr<NV_ENC_LOCK_BITSTREAM> EncodeFrame(GLuint texture, GLenum target, uint32_t width, uint32_t height, bool iFrame);
+
 private:
 	struct RegisteredPBO
 	{

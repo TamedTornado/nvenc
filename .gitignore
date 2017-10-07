@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+NvEncoder/Debug/
+NvEncoder/x64/
+x64/
