@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="VideoCodecSDK">
+      <UniqueIdentifier>{dfb8e3bb-ad3e-4ce6-ad26-d41a52263b56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VideoCodecSDK\GL">
+      <UniqueIdentifier>{5afe8d6a-34d8-4a3c-a70c-6984dd2e4831}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="encoder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\cudaModuleMgr.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\drvapi_error_string.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\dynlink_builtin_types.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\dynlink_cuda.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\dynlink_cuda_cuda.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\dynlink_cuda_d3d.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\dynlink_cuda_gl.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\dynlink_cudaD3D9.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\dynlink_cudaD3D10.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\dynlink_cudaD3D11.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\dynlink_cudaGL.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\dynlink_cuviddec.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\dynlink_nvcuvid.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\exception.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\helper_cuda.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\helper_cuda_drvapi.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\helper_functions.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\helper_string.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\helper_timer.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\nvCPUOPSys.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\nvEncodeAPI.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\nvFileIO.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\NvHWEncoder.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\nvUtils.h">
+      <Filter>VideoCodecSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="EncoderCUDA.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EncoderOpenGL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EncoderDX11.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EncoderFFMPEG.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\GL\freeglut.h">
+      <Filter>VideoCodecSDK\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\GL\freeglut_ext.h">
+      <Filter>VideoCodecSDK\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\GL\freeglut_std.h">
+      <Filter>VideoCodecSDK\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\GL\gl.h">
+      <Filter>VideoCodecSDK\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\GL\glew.h">
+      <Filter>VideoCodecSDK\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\GL\glext.h">
+      <Filter>VideoCodecSDK\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\GL\glu.h">
+      <Filter>VideoCodecSDK\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\GL\glut.h">
+      <Filter>VideoCodecSDK\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\GL\glx.h">
+      <Filter>VideoCodecSDK\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\GL\glxew.h">
+      <Filter>VideoCodecSDK\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\GL\glxext.h">
+      <Filter>VideoCodecSDK\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="mp4.h">
+      <Filter>VideoCodecSDK\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\GL\wglew.h">
+      <Filter>VideoCodecSDK\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoCodecSDK\GL\wglext.h">
+      <Filter>VideoCodecSDK\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="DllInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="encoder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mp4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EncoderCUDA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EncoderOpenGL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EncoderDX11.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EncoderFFMPEG.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DllInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

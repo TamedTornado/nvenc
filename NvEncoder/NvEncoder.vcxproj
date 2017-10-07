@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{879E5804-9797-4F0D-A9C0-DBD0FC98DFD2}</ProjectGuid>
+    <RootNamespace>NvEncoder</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\Projects\nvenc\NvEncoder\NvEncoder\VideoCodecSDK;D:\Projects\DepsRoot\CUDA\8.0.61\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GLEW_STATIC;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>D:\Projects\DepsRoot\CUDA\8.0.61\lib\x64;D:\Projects\DepsRoot\glew-vc14win\2008.0\lib\win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;cuda.lib;glew_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\Projects\nvenc\NvEncoder\NvEncoder\VideoCodecSDK;D:\Projects\DepsRoot\CUDA\8.0.61\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GLEW_STATIC;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;cuda.lib;glew_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Projects\DepsRoot\CUDA\8.0.61\lib\x64;D:\Projects\DepsRoot\glew-vc14win\2008.0\lib\win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="DllInterface.h" />
+    <ClInclude Include="encoder.h" />
+    <ClInclude Include="EncoderCUDA.h" />
+    <ClInclude Include="EncoderDX11.h" />
+    <ClInclude Include="EncoderOpenGL.h" />
+    <ClInclude Include="EncoderFFMPEG.h" />
+    <ClInclude Include="mp4.h" />
+    <ClInclude Include="VideoCodecSDK\cudaModuleMgr.h" />
+    <ClInclude Include="VideoCodecSDK\drvapi_error_string.h" />
+    <ClInclude Include="VideoCodecSDK\dynlink_builtin_types.h" />
+    <ClInclude Include="VideoCodecSDK\dynlink_cuda.h" />
+    <ClInclude Include="VideoCodecSDK\dynlink_cudaD3D10.h" />
+    <ClInclude Include="VideoCodecSDK\dynlink_cudaD3D11.h" />
+    <ClInclude Include="VideoCodecSDK\dynlink_cudaD3D9.h" />
+    <ClInclude Include="VideoCodecSDK\dynlink_cudaGL.h" />
+    <ClInclude Include="VideoCodecSDK\dynlink_cuda_cuda.h" />
+    <ClInclude Include="VideoCodecSDK\dynlink_cuda_d3d.h" />
+    <ClInclude Include="VideoCodecSDK\dynlink_cuda_gl.h" />
+    <ClInclude Include="VideoCodecSDK\dynlink_cuviddec.h" />
+    <ClInclude Include="VideoCodecSDK\dynlink_nvcuvid.h" />
+    <ClInclude Include="VideoCodecSDK\exception.h" />
+    <ClInclude Include="VideoCodecSDK\GL\freeglut.h" />
+    <ClInclude Include="VideoCodecSDK\GL\freeglut_ext.h" />
+    <ClInclude Include="VideoCodecSDK\GL\freeglut_std.h" />
+    <ClInclude Include="VideoCodecSDK\GL\gl.h" />
+    <ClInclude Include="VideoCodecSDK\GL\glew.h" />
+    <ClInclude Include="VideoCodecSDK\GL\glext.h" />
+    <ClInclude Include="VideoCodecSDK\GL\glu.h" />
+    <ClInclude Include="VideoCodecSDK\GL\glut.h" />
+    <ClInclude Include="VideoCodecSDK\GL\glx.h" />
+    <ClInclude Include="VideoCodecSDK\GL\glxew.h" />
+    <ClInclude Include="VideoCodecSDK\GL\glxext.h" />
+    <ClInclude Include="VideoCodecSDK\GL\wglew.h" />
+    <ClInclude Include="VideoCodecSDK\GL\wglext.h" />
+    <ClInclude Include="VideoCodecSDK\helper_cuda.h" />
+    <ClInclude Include="VideoCodecSDK\helper_cuda_drvapi.h" />
+    <ClInclude Include="VideoCodecSDK\helper_functions.h" />
+    <ClInclude Include="VideoCodecSDK\helper_string.h" />
+    <ClInclude Include="VideoCodecSDK\helper_timer.h" />
+    <ClInclude Include="VideoCodecSDK\nvCPUOPSys.h" />
+    <ClInclude Include="VideoCodecSDK\nvEncodeAPI.h" />
+    <ClInclude Include="VideoCodecSDK\nvFileIO.h" />
+    <ClInclude Include="VideoCodecSDK\NvHWEncoder.h" />
+    <ClInclude Include="VideoCodecSDK\nvUtils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DllInterface.cpp" />
+    <ClCompile Include="encoder.cpp" />
+    <ClCompile Include="EncoderCUDA.cpp" />
+    <ClCompile Include="EncoderDX11.cpp" />
+    <ClCompile Include="EncoderOpenGL.cpp" />
+    <ClCompile Include="EncoderFFMPEG.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="mp4.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
