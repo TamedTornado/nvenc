@@ -30,7 +30,7 @@ __declspec(dllexport) bool InitNVENC()
 
 __declspec(dllexport) bool SetConcurrentEncodes(unsigned int encodes)
 {
-
+	return true;
 }
 
 __declspec(dllexport) bool InitOpenGLEncoder(void* device, unsigned int encodeWidth, unsigned int encodeHeight, unsigned int bitrate, bool hevc)
@@ -41,7 +41,8 @@ __declspec(dllexport) bool InitOpenGLEncoder(void* device, unsigned int encodeWi
 	}
 
 	//TODO: Fix horrible colorConversion.ptx load!
-	cudaEncoder = std::make_shared<EncoderOpenGL>(encodeWidth, encodeHeight, hevc, bitrate);
+	frameEncoder = std::make_shared<EncoderOpenGL>();
+	frameEncoder->Init(NV_ENC_DEVICE_TYPE_CUDA, nullptr, encodeWidth, encodeHeight, hevc, bitrate);
 
 	return true;
 }
@@ -74,10 +75,10 @@ __declspec(dllexport) void* EncodeOpenGLFrame(unsigned int texture /*GLUint*/, u
 	}
 	// Dude!
 
-	oglEncoder->EncodeTexture(texture, target, width, height, iFrame, )
-	{
-	}
-	)
+// 	oglEncoder->EncodeTexture(texture, target, width, height, iFrame, )
+// 	{
+// 	}
+// 	)
 
-	return true;
+	return nullptr;
 }

@@ -6,6 +6,7 @@
 #include <unordered_map>
 
 #include "nvEncodeAPI.h"
+#include <memory>
 
 
 // RGBA input is only available in SDK 6+ (otherwise we use manual CUDA conversion kernels)
@@ -46,8 +47,8 @@ public:
 	void SwitchRate(CompressionBandwidth bw);
 	void SetRate(uint32_t bps);
 
-protected:
 	virtual void Init(NV_ENC_DEVICE_TYPE deviceType, void* device, uint32_t width, uint32_t height, bool hevc, uint32_t bitrate);
+protected:
 	void Encode(NV_ENC_INPUT_RESOURCE_TYPE resourceType, void* resource, NV_ENC_BUFFER_FORMAT format, uint32_t pitch, uint32_t width, uint32_t height, bool iFrame, std::vector<uint8_t>& buffer);
 
 	std::shared_ptr<NV_ENC_LOCK_BITSTREAM> EncodeFrame(NV_ENC_INPUT_RESOURCE_TYPE resourceType, void* resource, NV_ENC_BUFFER_FORMAT format, uint32_t pitch, uint32_t width, uint32_t height, bool iFrame);

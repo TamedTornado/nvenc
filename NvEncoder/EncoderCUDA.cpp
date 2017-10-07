@@ -86,7 +86,8 @@ EncoderCUDA::EncoderCUDA():
 
 void EncoderCUDA::Init(NV_ENC_DEVICE_TYPE deviceType, void* device, uint32_t width, uint32_t height, bool hevc, uint32_t bitrate)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	// Supply the CUDA context as a device to the base class init, that's what it wants!
+	Encoder::Init(deviceType, m_CUDAContext, width, height, hevc, bitrate);
 }
 
 /**

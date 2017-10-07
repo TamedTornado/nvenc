@@ -129,6 +129,7 @@
     <ClInclude Include="EncoderOpenGL.h" />
     <ClInclude Include="EncoderFFMPEG.h" />
     <ClInclude Include="mp4.h" />
+    <ClInclude Include="Shared.h" />
     <ClInclude Include="VideoCodecSDK\cudaModuleMgr.h" />
     <ClInclude Include="VideoCodecSDK\drvapi_error_string.h" />
     <ClInclude Include="VideoCodecSDK\dynlink_builtin_types.h" />

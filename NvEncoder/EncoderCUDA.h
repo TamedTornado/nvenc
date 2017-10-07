@@ -22,12 +22,9 @@ public:
 	std::shared_ptr<NV_ENC_LOCK_BITSTREAM> EncodeFrame(CUdeviceptr bufferRGBA, uint32_t width, uint32_t height, bool iFrame);
 
 
-protected:
-	
-
-	EncoderCUDA() = default;
-
 	virtual void Init(NV_ENC_DEVICE_TYPE deviceType, void* device, uint32_t width, uint32_t height, bool hevc, uint32_t bitrate) override;
+protected:
+
 
 	//	void ResizeNV12Buffer(uint32_t width, uint32_t height);
 

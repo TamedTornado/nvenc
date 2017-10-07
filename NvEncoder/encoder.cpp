@@ -8,6 +8,8 @@
 #include <cassert>
 #include <cstring>
 
+#include "shared.h"
+
 #ifndef WIN32
 #include <dlfcn.h>
 #endif
@@ -57,18 +59,6 @@ inline void NVENC_THROW(NVENCSTATUS code, const std::string& errorMessage)
 	}
 }
 
-void* m_nvencHandle = nullptr;
-NV_ENCODE_API_FUNCTION_LIST m_nvencFuncs;
-NV_ENC_INITIALIZE_PARAMS m_nvencParams;
-NV_ENC_CONFIG m_nvencConfig;
-void* m_nvencEncoder = nullptr;
-
-NV_ENC_OUTPUT_PTR m_bitstreamBuffer = nullptr;
-NV_ENC_REGISTERED_PTR m_registeredResource = nullptr;
-
-bool m_forceReinit = true;
-bool m_hevc;
-
 Encoder::Encoder():
 	m_nvencHandle(nullptr),
 	m_nvencFuncs(),
@@ -99,9 +89,9 @@ void Encoder::Init(NV_ENC_DEVICE_TYPE deviceType, void* device, uint32_t width, 
 
 	typedef NVENCSTATUS(NVENCAPI *NvEncodeAPICreateInstance_Type)(NV_ENCODE_API_FUNCTION_LIST*);
 #if defined(_WIN32)
-	NvEncodeAPICreateInstance_Type NvEncodeAPICreateInstance = (NvEncodeAPICreateInstance_Type)(void *)(GetProcAddress(hModule, "NvEncodeAPICreateInstance"));
+	NvEncodeAPICreateInstance_Type NvEncodeAPICreateInstance = (NvEncodeAPICreateInstance_Type)(void *)(GetProcAddress(hEncodeDLL, "NvEncodeAPICreateInstance"));
 #else
-	NvEncodeAPICreateInstance_Type NvEncodeAPICreateInstance = (NvEncodeAPICreateInstance_Type)dlsym(hModule, "NvEncodeAPICreateInstance");
+	NvEncodeAPICreateInstance_Type NvEncodeAPICreateInstance = (NvEncodeAPICreateInstance_Type)dlsym(hEncodeDLL, "NvEncodeAPICreateInstance");
 #endif
 
 	// FIXME
@@ -121,17 +111,6 @@ void Encoder::Init(NV_ENC_DEVICE_TYPE deviceType, void* device, uint32_t width, 
 	openSessionExParams.device = device;
 	openSessionExParams.deviceType = deviceType;
 	openSessionExParams.apiVersion = NVENCAPI_VERSION;
-
-#ifdef ENCODER_CUDA_SUPPORT
-	if (deviceType == NV_ENC_DEVICE_TYPE_CUDA && device == nullptr)
-	{
-		// Use current CUDA context if none is given
-		CUcontext context;
-		CUDA_THROW(cuCtxGetCurrent(&context), "Failed to get current context");
-		assert(context != nullptr);
-		openSessionExParams.device = context;
-	}
-#endif
 
 	NVENC_THROW(m_nvencFuncs.nvEncOpenEncodeSessionEx(&openSessionExParams, &m_nvencEncoder),
 		"Failed to open encode session");
@@ -288,8 +267,8 @@ std::shared_ptr<NV_ENC_LOCK_BITSTREAM> Encoder::EncodeFrame(NV_ENC_INPUT_RESOURC
 	auto lockBitstreamData = std::make_shared<NV_ENC_LOCK_BITSTREAM>(NV_ENC_LOCK_BITSTREAM{ NV_ENC_LOCK_BITSTREAM_VER });
 //	NV_ENC_LOCK_BITSTREAM lockBitstreamData = { NV_ENC_LOCK_BITSTREAM_VER };
 
-	lockBitstreamData.outputBitstream = m_bitstreamBuffer;
-	lockBitstreamData.doNotWait = false;
+	lockBitstreamData->outputBitstream = m_bitstreamBuffer;
+	lockBitstreamData->doNotWait = false;
 
 	NVENC_THROW(m_nvencFuncs.nvEncLockBitstream(m_nvencEncoder, lockBitstreamData.get()),
 		"Failed to lock bitstream");
